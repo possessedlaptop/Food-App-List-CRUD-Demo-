@@ -36,87 +36,87 @@ public class Register_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
 
-        // Get references to the UI elements
+        // Inicializamos las variables de los elementos en el layout
         usernameEditText = findViewById(R.id.etRegUsername);
         passwordEditText = findViewById(R.id.etRegPass);
         securityQuestionEditText = findViewById(R.id.etRegPregunta);
         registerButton = findViewById(R.id.btnRegRegistrar);
         backButton = findViewById(R.id.btnRegRegresar);
 
-
         firebaseAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
+        // Listener para comprobar la existencia del nodo "users" en la base de datos de Firebase Realtime Database
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    // The "users" node doesn't exist, so create it
+                    // El nodo "users" no existe, por lo que se crea
                     usersRef.setValue(true)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        // Node creation successful
-                                        // Proceed with user registration logic
+                                        // Creación del nodo exitosa
+                                        // Proceder con la lógica de registro de usuario
                                     } else {
-                                        // Node creation failed
-                                        Toast.makeText(Register_Screen.this, "Failed to create 'users' node", Toast.LENGTH_SHORT).show();
+                                        // Fallo en la creación del nodo
+                                        Toast.makeText(Register_Screen.this, "Error al crear el nodo 'users'", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                 } else {
-                    // The "users" node already exists
-                    // Proceed with user registration logic
+                    // El nodo "users" ya existe
+                    // Proceder con la lógica de registro de usuario
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle any error during node check or creation
-                Toast.makeText(Register_Screen.this, "Error occurred during 'users' node check", Toast.LENGTH_SHORT).show();
+                // Manejar cualquier error durante la comprobación o creación del nodo
+                Toast.makeText(Register_Screen.this, "Se produjo un error durante la comprobación del nodo 'users'", Toast.LENGTH_SHORT).show();
             }
         });
 
-
+        // Listener para el botón de registro
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Retrieve the entered username, password, and security question
+                // Obtener el nombre de usuario, contraseña y pregunta de seguridad ingresados
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String securityQuestion = securityQuestionEditText.getText().toString();
 
                 if (password.length() >= 6) {
-                    // Password meets the minimum length requirement
-                    // Proceed with registration logic
-                firebaseAuth.createUserWithEmailAndPassword(username, password)
-                        .addOnCompleteListener(Register_Screen.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Registration successful
-                                    String userId = firebaseAuth.getCurrentUser().getUid();
-                                    Usuario newUser = new Usuario(userId, username, password, securityQuestion);
-                                    usersRef.child(userId).setValue(newUser);
-                                    Toast.makeText(Register_Screen.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                                    // Proceed to the login screen or perform any desired action
-                                } else {
-                                    // Registration failed
-                                    Log.d("Registration", "Error: " + task.getException());
-                                    Toast.makeText(Register_Screen.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    // La contraseña cumple con el requisito de longitud mínima
+                    // Proceder con la lógica de registro
+                    firebaseAuth.createUserWithEmailAndPassword(username, password)
+                            .addOnCompleteListener(Register_Screen.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Registro exitoso
+                                        String userId = firebaseAuth.getCurrentUser().getUid();
+                                        Usuario newUser = new Usuario(userId, username, password, securityQuestion);
+                                        usersRef.child(userId).setValue(newUser);
+                                        Toast.makeText(Register_Screen.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                                        // Proceder a la pantalla de inicio de sesión o realizar cualquier acción deseada
+                                    } else {
+                                        // Registro fallido
+                                        Log.d("Registro", "Error: " + task.getException());
+                                        Toast.makeText(Register_Screen.this, "Registro fallido", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-            }
+                            });
+                }
             }
         });
 
-
+        // Listener para el botón de retroceso
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Close the activity and return to the previous screen
+                finish(); // Cerrar la actividad y volver a la pantalla anterior
             }
         });
     }

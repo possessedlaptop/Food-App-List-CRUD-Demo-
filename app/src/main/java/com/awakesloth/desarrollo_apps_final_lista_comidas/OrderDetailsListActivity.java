@@ -32,22 +32,22 @@ public class OrderDetailsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_list);
 
-        // Initialize the ListView
+        // Inicializar el ListView
         orderListView = findViewById(R.id.orderListView);
 
-        // Create a reference to the "orders" node in Firebase Realtime Database
+        // Crear una referencia al nodo "orders" en la base de datos de Firebase Realtime Database
         ordersRef = FirebaseDatabase.getInstance().getReference("orders");
 
-        // Initialize the orderList
+        // Inicializar la lista de pedidos (orderList)
         orderList = new ArrayList<>();
 
-        // Create the ArrayAdapter
+        // Crear el ArrayAdapter
         orderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, orderList);
 
-        // Set the adapter on the ListView
+        // Establecer el adaptador en el ListView
         orderListView.setAdapter(orderAdapter);
 
-        // Retrieve the orders from Firebase Realtime Database
+        // Recuperar los pedidos de la base de datos de Firebase Realtime Database
         retrieveOrders();
     }
 
@@ -55,46 +55,44 @@ public class OrderDetailsListActivity extends AppCompatActivity {
         ordersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Clear the orderList before populating it with new data
+                // Limpiar la lista de pedidos (orderList) antes de llenarla con nuevos datos
                 orderList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Get the order ID from the dataSnapshot
+                    // Obtener el ID del pedido desde el DataSnapshot
                     String orderId = snapshot.getKey();
 
-                    // Get the order details (selectedPlates, totalPrice, and userInfo)
+                    // Obtener los detalles del pedido (selectedPlates, totalPrice y userInfo)
                     Order order = snapshot.getValue(Order.class);
                     List<Plate> selectedPlates = order.getSelectedPlates();
                     double totalPrice = order.getTotalPrice();
                     String userInfo = order.getUserInfo();
 
-                    // Create a formatted string for displaying the order details
+                    // Crear una cadena formateada para mostrar los detalles del pedido
                     StringBuilder builder = new StringBuilder();
-                    builder.append("Order ID: ").append(orderId).append("\n");
-                    builder.append("Username: ").append(userInfo).append("\n\n");
-                    builder.append("Order Elements:\n");
+                    builder.append("ID del Pedido: ").append(orderId).append("\n");
+                    builder.append("Usuario: ").append(userInfo).append("\n\n");
+                    builder.append("Elementos del Pedido:\n");
                     for (Plate plate : selectedPlates) {
-                        builder.append("Plate: ").append(plate.getName()).append("\n");
-                        builder.append("Price: $").append(plate.getPrice()).append("\n\n");
+                        builder.append("Plato: ").append(plate.getName()).append("\n");
+                        builder.append("Precio: S/.").append(plate.getPrice()).append("\n\n");
                     }
-                    builder.append("Total Price: $").append(totalPrice);
+                    builder.append("Precio Total: S/.").append(totalPrice).append("\n");
 
-                    // Add the formatted order details to the orderList
+                    // Agregar los detalles del pedido formateados a la lista de pedidos (orderList)
                     orderList.add(builder.toString());
                 }
 
-                // Notify the adapter that the data has changed
+                // Notificar al adaptador que los datos han cambiado
                 orderAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle any errors that occurred while retrieving orders
-                Toast.makeText(OrderDetailsListActivity.this, "Failed to retrieve orders.", Toast.LENGTH_SHORT).show();
+                // Manejar cualquier error que ocurra al recuperar los pedidos, mira los en el Logcat del AS
+                Toast.makeText(OrderDetailsListActivity.this, "Error al recuperar los pedidos.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 }
-
-

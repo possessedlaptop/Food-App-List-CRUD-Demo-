@@ -35,25 +35,27 @@ public class Forgot_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_screen);
 
+        // Inicializamos las variables de los elementos en el layout
         usernameEditText = findViewById(R.id.etForUsername);
         securityQuestionEditText = findViewById(R.id.etForPregunta);
         resultEditText = findViewById(R.id.etForResultado);
         retrievePasswordButton = findViewById(R.id.btnForEnviar);
         backButton = findViewById(R.id.btnForRegresar);
 
-        // Initialize Firebase components
+        // Inicializar los componentes de Firebase
         firebaseAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("users");
 
-        // Set an OnClickListener for the retrieve password button
+        // Establecer un OnClickListener para el botón de recuperación de contraseña
         retrievePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Retrieve the entered username and security question
+                // Obtener el nombre de usuario y la pregunta de seguridad ingresados
                 String username = usernameEditText.getText().toString();
                 String securityQuestion = securityQuestionEditText.getText().toString();
 
-                // Retrieve the user's password based on the provided username and security question
+                // Obtener la contraseña del usuario en función del nombre de usuario y la pregunta de seguridad proporcionados
+                // Se busca por cada elemento hasta encontrar el del mismo username
                 Query query = usersRef.orderByChild("username").equalTo(username);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -61,12 +63,12 @@ public class Forgot_Screen extends AppCompatActivity {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Usuario user = snapshot.getValue(Usuario.class);
                             if (user != null && user.getSqAnswer().equals(securityQuestion)) {
-                                // Password retrieval successful
+                                // Recuperación de contraseña exitosa
                                 resultEditText.setText(user.getPassword());
                                 return;
                             }
                         }
-                        Toast.makeText(Forgot_Screen.this, "Usuario o Respuesta invalidas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Forgot_Screen.this, "Usuario o Respuesta inválidas", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -77,11 +79,11 @@ public class Forgot_Screen extends AppCompatActivity {
             }
         });
 
-        // Set an OnClickListener for the back button
+        // Establecer un OnClickListener para el botón de retroceso
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Close the activity and return to the previous screen
+                finish(); // Cerrar la actividad y volver a la pantalla anterior
             }
         });
     }

@@ -1,4 +1,5 @@
 package com.awakesloth.desarrollo_apps_final_lista_comidas.adapters;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ public class PlateAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // Con ViewHolder evitamos buscar con findById en cada item
         ViewHolder holder;
 
         if (convertView == null) {
@@ -60,7 +62,7 @@ public class PlateAdapter extends BaseAdapter {
         holder.priceTextView.setText(context.getString(R.string.currency_format, (int) plate.getPrice()));
         holder.ingredientsTextView.setText(plate.getIngredients());
 
-        // Set a listener for the checkbox
+        // Establecer un listener para el checkbox
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 selectedPlates.add(plate);
@@ -69,7 +71,7 @@ public class PlateAdapter extends BaseAdapter {
             }
         });
 
-        // Set the initial state of the checkbox based on plate selection
+        // Establecer el estado inicial del checkbox según la selección del plato
         holder.checkBox.setChecked(selectedPlates.contains(plate));
 
         return convertView;
