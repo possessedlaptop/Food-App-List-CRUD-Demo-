@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="food_names">
+        <item>Pizza Margherita</item>
+        <item>Spaghetti Bolognese</item>
+        <item>Caesar Salad</item>
+        <item>Chicken Tikka Masala</item>
+        <item>Sushi Roll Combo</item>
+        <item>Beef Burger</item>
+        <item>Fish and Chips</item>
+        <item>Mushroom Risotto</item>
+        <item>Tacos al Pastor</item>
+        <item>Chicken Shawarma</item>
+    </string-array>
+
+    <integer-array name="food_prices">
+        <item>12</item>
+        <item>14</item>
+        <item>8</item>
+        <item>16</item>
+        <item>18</item>
+        <item>10</item>
+        <item>13</item>
+        <item>9</item>
+        <item>11</item>
+        <item>15</item>
+    </integer-array>
+
+    <string-array name="food_ingredients">
+        <item>Mozzarella cheese, Tomato sauce, Basil</item>
+        <item>Ground beef, Tomato sauce, Spaghetti</item>
+        <item>Romaine lettuce, Croutons, Parmesan cheese</item>
+        <item>Chicken, Yogurt, Tomato sauce, Spices</item>
+        <item>Salmon, Rice, Seaweed, Avocado</item>
+        <item>Beef patty, Cheese, Lettuce, Tomato</item>
+        <item>White fish, French fries, Tartar sauce</item>
+        <item>Mushrooms, Arborio rice, Parmesan cheese</item>
+        <item>Marinated pork, Pineapple, Onion, Cilantro</item>
+        <item>Marinated chicken, Pita bread, Garlic sauce</item>
+    </string-array>
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "874143039866",
+    "project_id": "desarrollo-apps-final-lista",
+    "storage_bucket": "desarrollo-apps-final-lista.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874143039866:android:3e90a08a92d838474cd6c3",
+        "android_client_info": {
+          "package_name": "com.awakesloth.desarrollo_apps_final_lista_comidas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874143039866-udgf7tfu85n2ujm61q6ogj0qniq0kvnh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA56Wq1mPkh3JY5ytAtMSE9FCaw-uNbMuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874143039866-udgf7tfu85n2ujm61q6ogj0qniq0kvnh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
